@@ -17,9 +17,9 @@ function App(props) {
       <h1>Administrar Tareas</h1>
       <Form />
       <div className="filters btn-group stack-exception">
-        <FilterButton />
-        <FilterButton />
-        <FilterButton />
+        <FilterButton name="Todos" pressed="true" />
+        <FilterButton name="Activas" />
+        <FilterButton name="Completadas"/> 
       </div>
       <h2 id="list-heading">
         Quedan {taskList.length} tareas
