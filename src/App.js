@@ -26,6 +26,10 @@ function App(props) {
     setTasks(updatedTasks);
   }
 
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTasks);
+  }
   //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks, renderizo Componente Todo
   const taskList = tasks.map((task) => ( 
     <Todo 
@@ -34,6 +38,7 @@ function App(props) {
       completed={task.completed} 
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
     />
       
   ));
