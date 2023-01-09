@@ -15,13 +15,27 @@ function App(props) {
     setTasks([...tasks, newTask]); // asi copio la matriz original y agrego mi nuevo elemento a lo ultimo
   }
 
-  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks
+  // Actualizo check de una tarea
+  function toggleTaskCompleted(id) {
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return {...task, completed: !task.completed}
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+
+  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks, renderizo Componente Todo
   const taskList = tasks.map((task) => ( 
     <Todo 
       id={task.id} 
       name={task.name} 
       completed={task.completed} 
-      key={task.id}/>
+      key={task.id}
+      toggleTaskCompleted={toggleTaskCompleted}
+    />
+      
   ));
 
   const tasksNoun = taskList.length !== 1 ? 'tareas' : 'tarea';
