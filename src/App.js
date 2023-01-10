@@ -4,8 +4,17 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import { nanoid } from "nanoid"; //libreria externa para generar ids
 
+const FILTER_MAP = {
+  Todas: () => true,
+  Activas: (task) => !task.completed,
+  Completadas: (task) => task.completed,
+};
+
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
 function App(props) {
   const [tasks, setTasks] = useState(props.tasks);
+  const [filter, setFilter] = useState("Todas");
 
   function addTask(name) {
     const newTask = { id: `todo-${nanoid()}`, name: name, completed: false };
@@ -38,8 +47,8 @@ function App(props) {
     setTasks(editedTaskList);
   }
 
-  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks, renderizo Componente Todo
-  const taskList = tasks.map((task) => (
+  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks, renderizo Componente Todo segun el filtro seleccionado
+  const taskList = tasks.filter(FILTER_MAP[filter]).map((task) => (
     <Todo
       id={task.id}
       name={task.name}
@@ -51,6 +60,17 @@ function App(props) {
     />
   ));
 
+  const filterList = FILTER_NAMES.map((name) => {
+    return (
+      <FilterButton
+        key={name}
+        name={name}
+        isPressed={name === filter}
+        setFilter={setFilter}
+      />
+    );
+  });
+
   const tasksNoun = taskList.length !== 1 ? "tareas" : "tarea";
   const headingText = `${taskList.length} ${tasksNoun}`;
 
@@ -58,11 +78,7 @@ function App(props) {
     <div className="todoapp stack-large">
       <h1>Administrar Tareas</h1>
       <Form addTask={addTask} />
-      <div className="filters btn-group stack-exception">
-        <FilterButton name="Todos" pressed="true" />
-        <FilterButton name="Activas" />
-        <FilterButton name="Completadas" />
-      </div>
+      <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
       <ul
         className="todo-list stack-large stack-exception"
