@@ -1,17 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { nanoid } from "nanoid";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 const DATA = [
-  { id: "todo-0", name: "Comer", completed: true },
-  { id: "todo-1", name: "Dormir", completed: false },
-  { id: "todo-2", name: "Repetir", completed: false }
+  { id: `todo-${nanoid()}`, name: "Comer", completed: true },
+  { id: `todo-${nanoid()}`, name: "Dormir", completed: false },
+  { id: `todo-${nanoid()}`, name: "Repetir", completed: false },
 ];
 root.render(
   <React.StrictMode>
-    <App tasks={DATA}/>
+    <App tasks={DATA} />
   </React.StrictMode>
 );
 
