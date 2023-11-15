@@ -2,70 +2,75 @@ import React, { useState } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
-import { nanoid } from "nanoid"; //libreria externa para generar ids
+import { fetchData } from "./fetchData";
+import { Suspense } from "react"; // componente nativo, me ayuda a esperar mis peticiones y mostrar el spinner
+import { Hypnosis } from "react-cssfx-loading"; // componente nativo para mostrar spinner
+
+const url = "http://127.0.0.1:8000/api/tareas/1";
+const apiData = fetchData(url);
 
 const FILTER_MAP = {
   Todas: () => true,
-  Activas: (task) => !task.completed,
-  Completadas: (task) => task.completed,
+  Activas: (tarea) => !tarea.terminada,
+  Completadas: (tarea) => tarea.terminada,
 };
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-function App(props) {
-  const [tasks, setTasks] = useState(props.tasks);
+function App() {
+  const data = apiData.read();
+  const [tareas, setTareas] = useState(data);
   const [filter, setFilter] = useState("Todas");
-
-  function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name: name, completed: false };
-    setTasks([...tasks, newTask]); // asi copio la matriz original y agrego mi nuevo elemento a lo ultimo
+  function addTarea(titulo) {
+    const newTarea = {titulo: titulo, terminada: false };
+    setTareas([...tareas, newTarea]); // asi copio la matriz original y agrego mi nuevo elemento a lo ultimo
   }
 
   // Actualizo check de una tarea
   function toggleTaskCompleted(id) {
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, completed: !task.completed };
+    const updatedTareas = tareas.map((tarea) => {
+      if (tarea.id === id) {
+        return { ...tarea, terminada: !tarea.terminada };
       }
-      return task;
+      return tarea;
     });
-    setTasks(updatedTasks);
+    setTareas(updatedTareas);
   }
 
-  function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
+  function deleteTarea(id) {
+    const remainingTasks = tareas.filter((tarea) => id !== tarea.id);
+    setTareas(remainingTasks);
   }
 
-  function editTask(id, newName) {
-    const editedTaskList = tasks.map((task) => {
-      if (id === task.id) {
-        return { ...task, name: newName };
+  function editTarea(id, newTitulo) {
+    const editedTaskList = tareas.map((tarea) => {
+      if (id === tarea.id) {
+        return { ...tarea, titulo: newTitulo };
       }
-      return task;
+      return tarea;
     });
-    setTasks(editedTaskList);
+    setTareas(editedTaskList);
   }
 
-  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tasks, renderizo Componente Todo segun el filtro seleccionado
-  const taskList = tasks.filter(FILTER_MAP[filter]).map((task) => (
-    <Todo
-      id={task.id}
-      name={task.name}
-      completed={task.completed}
-      key={task.id}
-      toggleTaskCompleted={toggleTaskCompleted}
-      deleteTask={deleteTask}
-      editTask={editTask}
-    />
-  ));
+  //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tareas, renderizo Componente Todo segun el filtro seleccionado
+    const taskList = tareas.filter(FILTER_MAP[filter]).map((tarea) => (
+      <Todo
+        id={tarea.id}
+        titulo={tarea.titulo}
+        terminada={tarea.terminada}
+        key={tarea.id}
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTarea={deleteTarea}
+        editTarea={editTarea}
+      />
+    ));               
 
-  const filterList = FILTER_NAMES.map((name) => {
+  const filterList = FILTER_NAMES.map((titulo) => {
     return (
       <FilterButton
-        key={name}
-        name={name}
-        isPressed={name === filter}
+        key={titulo}
+        titulo={titulo}
+        isPressed={titulo === filter}
         setFilter={setFilter}
       />
     );
@@ -77,16 +82,15 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <h1>Administrar Tareas</h1>
-      <Form addTask={addTask} />
-      <div className="filters btn-group stack-exception">{filterList}</div>
-      <h2 id="list-heading">{headingText}</h2>
-      <ul
-        className="todo-list stack-large stack-exception"
-        aria-labelledby="list-heading"
-      >
-        {/* muestro constante que contiene mi mapeo con mis tareas */}
-        {taskList}
-      </ul>
+        <Form addTarea={addTarea} />
+        <div className="filters btn-group stack-exception">{filterList}</div>
+        <h2 id="list-heading">{headingText}</h2>
+        <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
+        <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="4s" /></div>}>
+          {/* muestro constante que contiene mi mapeo con mis tareas */}         
+          {taskList}
+        </Suspense>
+        </ul>
     </div>
   );
 }

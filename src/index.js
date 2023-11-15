@@ -2,17 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { nanoid } from "nanoid";
+import { Suspense } from "react"
+import { Hypnosis } from "react-cssfx-loading";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const DATA = [
-  { id: `todo-${nanoid()}`, name: "Comer", completed: true },
-  { id: `todo-${nanoid()}`, name: "Dormir", completed: false },
-  { id: `todo-${nanoid()}`, name: "Repetir", completed: false },
-];
+
 root.render(
   <React.StrictMode>
-    <App tasks={DATA} />
+    <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
+      <App />
+    </Suspense>
   </React.StrictMode>
 );
 

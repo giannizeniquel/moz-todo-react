@@ -1,16 +1,16 @@
 import React, { Fragment, useState } from "react";
 
 export default function Form(props) {
-  const [name, setName] = useState("");
+  const [titulo, setTitulo] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.addTask(name);
-    setName("");
+    props.addTarea(titulo);
+    setTitulo("");
   }
 
   function handleChange(e) {
-    setName(e.target.value);
+    setTitulo(e.target.value);
   }
 
   return (
@@ -27,7 +27,7 @@ export default function Form(props) {
           className="input input__lg"
           name="text"
           autoComplete="off"
-          value={name}
+          value={titulo}
           onChange={handleChange}
         />
         <button
