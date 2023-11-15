@@ -14,7 +14,7 @@ export default function Todo(props) {
     setNewTitulo("");
     setEditing(false);
   }
-console.log(props.terminada);
+
   const editingTemplate = (
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
