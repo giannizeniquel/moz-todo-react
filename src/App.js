@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
-import { fetchData } from "./fetchData";
+import { fetchGetTareas, fetchCreateTarea } from "./fetchData"; // peticiones a la api de tareas
 import { Suspense } from "react"; // componente nativo, me ayuda a esperar mis peticiones y mostrar el spinner
 import { Hypnosis } from "react-cssfx-loading"; // componente nativo para mostrar spinner
 
-const url = "http://127.0.0.1:8000/api/tareas/1";
-const apiData = fetchData(url);
+const getTareas = fetchGetTareas(1);//el parametro me indica el usuario TODO: pensar dinamismo cuando se tenga el login hecho
+
 
 const FILTER_MAP = {
   Todas: () => true,
@@ -18,12 +18,26 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App() {
-  const data = apiData.read();
+  let data = getTareas.read();
   const [tareas, setTareas] = useState(data);
   const [filter, setFilter] = useState("Todas");
-  function addTarea(titulo) {
-    const newTarea = {titulo: titulo, terminada: false };
-    setTareas([...tareas, newTarea]); // asi copio la matriz original y agrego mi nuevo elemento a lo ultimo
+
+  async function addTarea(titulo, descripcion, userId = 1) {
+    try {
+      const newTarea = {
+        titulo: titulo, 
+        descripcion: descripcion, 
+        terminada: false, 
+        userId: userId
+      };
+      // Esperar a que se complete la creación de la tarea
+      const response = await fetchCreateTarea(newTarea);
+
+      setTareas([...tareas, response.nueva_tarea]);
+  } catch (error) {
+      console.error('Error adding tarea:', error);
+  }
+    
   }
 
   // Actualizo check de una tarea
@@ -57,6 +71,7 @@ function App() {
       <Todo
         id={tarea.id}
         titulo={tarea.titulo}
+        descripcion={tarea.descripcion}
         terminada={tarea.terminada}
         key={tarea.id}
         toggleTaskCompleted={toggleTaskCompleted}
@@ -80,18 +95,18 @@ function App() {
   const headingText = `${taskList.length} ${tasksNoun}`;
 
   return (
-    <div className="todoapp stack-large">
-      <h1>Administrar Tareas</h1>
-        <Form addTarea={addTarea} />
-        <div className="filters btn-group stack-exception">{filterList}</div>
-        <h2 id="list-heading">{headingText}</h2>
-        <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
-        <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="4s" /></div>}>
-          {/* muestro constante que contiene mi mapeo con mis tareas */}         
-          {taskList}
-        </Suspense>
-        </ul>
-    </div>
+    <>
+      <div className="todoapp stack-large">
+        <h1>Administrar Tareas</h1>
+          <Form addTarea={addTarea} />
+          <div className="filters btn-group stack-exception">{filterList}</div>
+          <h2 id="list-heading">{headingText}</h2>
+          <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
+            {/* muestro constante que contiene mi mapeo con mis tareas */}         
+            {taskList}
+          </ul>
+      </div>
+    </>
   );
 }
 

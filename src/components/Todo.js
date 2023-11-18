@@ -3,6 +3,7 @@ import React, { Fragment, useState } from "react";
 export default function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newTitulo, setNewTitulo] = useState('');
+  const [newDescripcion, setNewDescripcion] = useState('');
 
   function handleChange(e) {
     setNewTitulo(e.target.value);
@@ -56,6 +57,9 @@ export default function Todo(props) {
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.titulo}
+        </label>
+        <label className="todo-label" htmlFor={props.id}>
+          {props.descripcion}
         </label>
       </div>
       <div className="btn-group">
