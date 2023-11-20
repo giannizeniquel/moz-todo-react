@@ -12,7 +12,7 @@ const getTareas = fetchGetTareas(1);//el parametro me indica el usuario TODO: pe
 const FILTER_MAP = {
   Todas: () => true,
   Activas: (tarea) => !tarea.terminada,
-  Completadas: (tarea) => tarea.terminada,
+  Terminadas: (tarea) => tarea.terminada,
 };
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
