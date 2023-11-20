@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
@@ -35,7 +35,7 @@ function App() {
 
       setTareas([...tareas, response.nueva_tarea]);
   } catch (error) {
-      console.error('Error adding tarea:', error);
+      console.error('Error crear tarea:', error);
   }
     
   }
@@ -101,10 +101,12 @@ function App() {
           <Form addTarea={addTarea} />
           <div className="filters btn-group stack-exception">{filterList}</div>
           <h2 id="list-heading">{headingText}</h2>
-          <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
-            {/* muestro constante que contiene mi mapeo con mis tareas */}         
-            {taskList}
-          </ul>
+          <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
+            <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
+              {/* muestro constante que contiene mi mapeo con mis tareas */}         
+              {taskList}
+            </ul>
+          </Suspense>
       </div>
     </>
   );

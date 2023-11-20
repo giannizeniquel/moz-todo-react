@@ -29,6 +29,19 @@ function getSuspender(promise) {
 }
 
 //envio por POST titulo, descripcion, terminada e id_usuario
+/*  devuelve:
+        $data = [
+            'status' => 'Tarea creada!',
+            'nueva_tarea' => [
+                'id',
+                'titulo',
+                'descripcion',
+                'terminada',
+                'fechaCreacion',
+                'user',
+            ]
+        ]; 
+*/
 export function fetchCreateTarea(newTarea) {
     let url = "http://127.0.0.1:8000/api/tarea";
 
@@ -44,6 +57,16 @@ export function fetchCreateTarea(newTarea) {
 }
 
 //obtengo una lista de tareas de un id_usuario
+/*  devuelve:
+        $data[] = [
+            'id',
+            'titulo',
+            'descripcion',
+            'terminada',
+            'fechaCreacion',
+            'user',
+        ];
+*/
 export function fetchGetTareas(id_user) {
     let url = "http://127.0.0.1:8000/api/tareas/" + id_user;
 
@@ -56,11 +79,12 @@ export function fetchGetTareas(id_user) {
             .then((response) => response.json())
             .then((data) => data);
 
-    return getSuspender(promise);
+    return getSuspender(promise); //uso getSuspender para mostrar spinner al inicio
 }
 
 //obtengo una sola tarea por id_tarea
 export function fetchGetTarea(url) {
+    //TODO:falta desarrollar fetchGetTarea
     const promise = fetch(url)
         .then((response) => response.json())
         .then((data) => data);
@@ -70,6 +94,7 @@ export function fetchGetTarea(url) {
 
 //envio por POST mail y password, espero un tkn en la response
 export function fetchLogin(url, mail, password) {
+    //TODO:falta desarrollar fetchLogin
     const promise = fetch(url)
         .then((response) => response.json())
         .then((data) => data);
