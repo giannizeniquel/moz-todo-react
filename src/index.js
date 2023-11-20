@@ -4,6 +4,11 @@ import "./index.css";
 import App from "./App";
 import { Suspense } from "react"
 import { Hypnosis } from "react-cssfx-loading";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
