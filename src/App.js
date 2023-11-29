@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
-import { fetchGetTareas, fetchCreateTarea } from "./fetchData"; // peticiones a la api de tareas
+import { fetchGetTareas, fetchCreateTarea, fetchDeleteTarea } from "./fetchData"; // peticiones a la api de tareas
 import { Suspense } from "react"; // componente nativo, me ayuda a esperar mis peticiones y mostrar el spinner
 import { Hypnosis } from "react-cssfx-loading"; // componente nativo para mostrar spinner
 import Box from '@mui/material/Box';
@@ -61,8 +61,11 @@ function App() {
     setTareas(updatedTareas);
   }
 
-  function deleteTarea(id) {
+  async function deleteTarea(id) {
     const remainingTasks = tareas.filter((tarea) => id !== tarea.id);
+    // Esperar a que se complete la creación de la tarea
+    const response = await fetchDeleteTarea(id);
+    console.log(response);
     setTareas(remainingTasks);
   }
 
