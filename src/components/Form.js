@@ -1,4 +1,7 @@
 import React, { Fragment, useState } from "react";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 export default function Form(props) {
   const [titulo, setTitulo] = useState("");
@@ -22,49 +25,67 @@ export default function Form(props) {
   }
 
   return (
-    <Fragment>
-      <form>
+    <Box component="form"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        '& .MuiTextField-root': { m: 1, width: '40ch'},
+        '& .MuiButton-root': { m: 1, width: '25ch'},
+      }}
+      autoComplete="off"
+    >
+      <div>
         <h2 className="label-wrapper">
           <label htmlFor="new-todo-input" className="label__lg">
             Que tarea tiene pendiente?
           </label>
         </h2>
-        <h3 className="label-wrapper">
-          <label htmlFor="new-todo-input" className="">
-            Titulo:
-          </label>
-        </h3>
-        <input
-          type="text"
-          id="new-todo-input-titulo"
-          className="input input__lg"
+      </div>
+      {/* <h3 className="label-wrapper">
+        <label htmlFor="new-todo-input" className="">
+          Titulo:
+        </label>
+      </h3> */}
+      <div>
+        <TextField
+          id="outlined-required-titulo"
+          label="Titulo"
           name="text-titulo"
           autoComplete="off"
           value={titulo}
           onChange={handleChange}
+          required
         />
-        <h3 className="label-wrapper">
-          <label htmlFor="new-todo-input" className="">
-            Descripcion:
-          </label>
-        </h3>
-        <input
-          type="text"
-          id="new-todo-input-descripcion"
-          className="input input__lg"
+      </div> 
+      {/* <h3 className="label-wrapper">
+        <label htmlFor="new-todo-input" className="">
+          Descripcion:
+        </label>
+      </h3> */}
+      
+      <div>
+        <TextField
+          id="outlined-required-descripcion"
+          label="Descripcion"
           name="text-descripcion"
           autoComplete="off"
           value={descripcion}
           onChange={handleChange}
+          required
+          multiline
         />
-        <button
-          type="submit"
-          className="btn btn__primary btn__lg"
+      </div>  
+      <div>
+        <Button
+          variant="contained"
+          type="success"
           onClick={handleSubmit}
         >
           Agregar
-        </button>
-      </form>
-    </Fragment>
+        </Button>
+      </div>
+      <br/>
+    </Box>
   );
 }

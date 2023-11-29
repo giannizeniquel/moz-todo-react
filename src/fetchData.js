@@ -43,6 +43,8 @@ function getSuspender(promise) {
         ]; 
 */
 export function fetchCreateTarea(newTarea) {
+    //para prod
+    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea";
     let url = "http://127.0.0.1:8000/api/tarea";
 
     return fetch(url, {
@@ -68,6 +70,8 @@ export function fetchCreateTarea(newTarea) {
         ];
 */
 export function fetchGetTareas(id_user) {
+    //para prod
+    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tareas/" + id_user;
     let url = "http://127.0.0.1:8000/api/tareas/" + id_user;
 
     const promise = fetch(url,{

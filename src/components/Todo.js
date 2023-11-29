@@ -1,4 +1,11 @@
 import React, { Fragment, useState } from "react";
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 export default function Todo(props) {
   const [isEditing, setEditing] = useState(false);
@@ -47,37 +54,45 @@ export default function Todo(props) {
     </form>
   );
   const viewTemplate = (
-    <li className="todo stack-small">
-      <div className="c-cb">
-        <input
-          id={props.id}
-          type="checkbox"
-          defaultChecked={props.terminada}
-          onChange={() => props.toggleTaskCompleted(props.id)}
-        />
-        <label className="todo-label" htmlFor={props.id}>
-          {props.titulo}
-        </label>
-        <label className="todo-label" htmlFor={props.id}>
-          {props.descripcion}
-        </label>
-      </div>
-      <div className="btn-group">
-        <button type="button" className="btn" onClick={() => setEditing(true)}>
-          Editar <span className="visually-hidden">{props.titulo}</span>
-        </button>
-        <button
-          type="button"
-          className="btn btn__danger"
-          onClick={() => {
-            props.deleteTarea(props.id);
-          }}
-        >
-          Eliminar <span className="visually-hidden">{props.titulo}</span>
-        </button>
-      </div>
-    </li>
+    <Fragment>
+      <Card variant="outlined">
+        <CardContent>
+          <Typography sx={{ fontSize: 14, fontStyle: "italic" }} color="text.secondary" gutterBottom>
+            {props.fechaCreacion}
+          </Typography>
+          <Typography variant="h5" component="div" id={'titulo_tarea_'+props.id}>
+            {props.titulo}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            
+          </Typography>
+          <Typography variant="body2">
+            {props.descripcion}
+          </Typography>
+          <br />
+          <Checkbox
+            id={'check_tarea_'+props.id}
+            checked={props.terminada}
+            onChange={() => props.toggleTaskCompleted(props.id)}
+            tabIndex={-1}
+            disableRipple
+          />
+          completado
+        </CardContent>
+
+        <CardActions>
+          <ButtonGroup>
+            <Button onClick={() => setEditing(true)} color="secondary">
+              Editar
+            </Button>
+            <Button onClick={() => { props.deleteTarea(props.id); }} color="error">
+              Eliminar
+            </Button>
+          </ButtonGroup>
+        </CardActions>
+      </Card>
+      <br/>
+    </Fragment>
   );
-  //return <Fragment>{editingTemplate }</Fragment>;
   return <Fragment>{isEditing ? editingTemplate : viewTemplate}</Fragment>;
 }

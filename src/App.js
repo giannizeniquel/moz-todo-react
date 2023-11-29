@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import { fetchGetTareas, fetchCreateTarea } from "./fetchData"; // peticiones a la api de tareas
 import { Suspense } from "react"; // componente nativo, me ayuda a esperar mis peticiones y mostrar el spinner
 import { Hypnosis } from "react-cssfx-loading"; // componente nativo para mostrar spinner
+import Box from '@mui/material/Box';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { Filter } from "@mui/icons-material";
 
 const getTareas = fetchGetTareas(1);//el parametro me indica el usuario TODO: pensar dinamismo cuando se tenga el login hecho
 
@@ -21,6 +29,8 @@ function App() {
   let data = getTareas.read();
   const [tareas, setTareas] = useState(data);
   const [filter, setFilter] = useState("Todas");
+  const [alignment, setAlignment] = React.useState('Todas');
+
 
   async function addTarea(titulo, descripcion, userId = 1) {
     try {
@@ -73,6 +83,7 @@ function App() {
         titulo={tarea.titulo}
         descripcion={tarea.descripcion}
         terminada={tarea.terminada}
+        fechaCreacion={tarea.fechaCreacion}
         key={tarea.id}
         toggleTaskCompleted={toggleTaskCompleted}
         deleteTarea={deleteTarea}
@@ -82,33 +93,55 @@ function App() {
 
   const filterList = FILTER_NAMES.map((titulo) => {
     return (
-      <FilterButton
-        key={titulo}
-        titulo={titulo}
-        isPressed={titulo === filter}
-        setFilter={setFilter}
-      />
+      <ToggleButton value={titulo} key={titulo} color="success">
+        <FilterButton
+          titulo={titulo}
+          isPressed={titulo === filter}
+          setFilter={setFilter}
+        />
+      </ToggleButton>
     );
   });
 
   const tasksNoun = taskList.length !== 1 ? "tareas" : "tarea";
   const headingText = `${taskList.length} ${tasksNoun}`;
 
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
   return (
-    <>
-      <div className="todoapp stack-large">
-        <h1>Administrar Tareas</h1>
-          <Form addTarea={addTarea} />
-          <div className="filters btn-group stack-exception">{filterList}</div>
-          <h2 id="list-heading">{headingText}</h2>
-          <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
-            <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
-              {/* muestro constante que contiene mi mapeo con mis tareas */}         
-              {taskList}
-            </ul>
-          </Suspense>
-      </div>
-    </>
+    <Fragment>
+      <h1>Administrar Tareas</h1>
+      <Form addTarea={addTarea} />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          '& > *': {
+            m: 1,
+          },
+        }}
+      >
+        <ToggleButtonGroup 
+          color="primary"
+          value={alignment}
+          exclusive
+          onChange={handleChange}
+          aria-label="Filter"
+        >
+          {filterList}
+        </ToggleButtonGroup>
+      </Box>
+      <h2 id="list-heading">{headingText}</h2>
+      <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
+          {/* muestro constante que contiene mi mapeo con mis tareas */}       
+          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+            {taskList}
+          </List>
+      </Suspense>
+    </Fragment>
   );
 }
 

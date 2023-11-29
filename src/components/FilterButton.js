@@ -1,18 +1,16 @@
-import React, { Fragment } from "react";
+import React from "react";
+import Button from '@mui/material/Button';
+
 
 export default function FilterButton(props) {
   return (
-    <Fragment>
-      <button
-        type="button"
-        className="btn toggle-btn"
+      <a
         aria-pressed={props.isPressed}
+        aria-label={props.titulo}
+        value={props.titulo}
         onClick={() => props.setFilter(props.titulo)}
       >
-        <span className="visually-hidden">Show </span>
-        <span>{props.titulo}</span>
-        <span className="visually-hidden"> tasks</span>
-      </button>
-    </Fragment>
+        {props.titulo}
+      </a>
   );
 }
