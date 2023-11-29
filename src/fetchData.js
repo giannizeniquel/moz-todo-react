@@ -58,6 +58,23 @@ export function fetchCreateTarea(newTarea) {
     .then((data) => { return data; });
 }
 
+//envio id de la tarea y la tarea que se va a modificar por method PUT
+export function fetchUpdateTarea(id, updateTarea) {
+    //para prod
+    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea/" + id;
+    let url = "http://127.0.0.1:8000/api/tarea/" + id;
+
+    return fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(updateTarea),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => response.json())
+    .then((data) => { return data; });
+}
+
 //envio id tarea a eliminar con method DELETE
 export function fetchDeleteTarea(id) {
     //para prod

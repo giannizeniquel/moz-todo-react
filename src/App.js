@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
-import { fetchGetTareas, fetchCreateTarea, fetchDeleteTarea } from "./fetchData"; // peticiones a la api de tareas
+import { fetchGetTareas, fetchCreateTarea, fetchDeleteTarea, fetchUpdateTarea } from "./fetchData"; // peticiones a la api de tareas
 import { Suspense } from "react"; // componente nativo, me ayuda a esperar mis peticiones y mostrar el spinner
 import { Hypnosis } from "react-cssfx-loading"; // componente nativo para mostrar spinner
 import Box from '@mui/material/Box';
@@ -51,13 +51,18 @@ function App() {
   }
 
   // Actualizo check de una tarea
-  function toggleTaskCompleted(id) {
+  async function toggleTaskCompleted(id) {
+    let updateOneTarea;
     const updatedTareas = tareas.map((tarea) => {
       if (tarea.id === id) {
+        updateOneTarea = { ...tarea, terminada: !tarea.terminada };
         return { ...tarea, terminada: !tarea.terminada };
       }
       return tarea;
     });
+
+    const response = await fetchUpdateTarea(id, updateOneTarea);
+    console.log(response);
     setTareas(updatedTareas);
   }
 
