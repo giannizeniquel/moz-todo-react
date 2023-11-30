@@ -74,13 +74,17 @@ function App() {
     setTareas(remainingTasks);
   }
 
-  function editTarea(id, newTitulo) {
+  async function editTarea(id, newTitulo, newDescripcion) {
+    let editOneTarea;
     const editedTaskList = tareas.map((tarea) => {
       if (id === tarea.id) {
-        return { ...tarea, titulo: newTitulo };
+        editOneTarea = { ...tarea, titulo: newTitulo, descripcion: newDescripcion, terminada: tarea.terminada };
+        return { ...tarea, titulo: newTitulo, descripcion: newDescripcion };
       }
       return tarea;
     });
+    const response = await fetchUpdateTarea(id, editOneTarea);
+    console.log(response);
     setTareas(editedTaskList);
   }
 
