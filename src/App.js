@@ -101,7 +101,7 @@ function App() {
 
   const filterList = FILTER_NAMES.map((titulo) => {
     return (
-      <ToggleButton value={titulo} key={titulo} color="success">
+      <ToggleButton value={titulo} key={titulo} color="primary">
         <FilterButton
           titulo={titulo}
           isPressed={titulo === filter}

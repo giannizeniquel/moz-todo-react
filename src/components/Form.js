@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function Form(props) {
   const [titulo, setTitulo] = useState("");
@@ -31,7 +32,7 @@ export default function Form(props) {
         flexDirection: 'column',
         alignItems: 'center',
         '& .MuiTextField-root': { m: 1, width: '40ch'},
-        '& .MuiButton-root': { m: 1, width: '25ch'},
+        '& .MuiButton-root': { m: 1, width: '15ch'},
       }}
       autoComplete="off"
     >
@@ -42,11 +43,6 @@ export default function Form(props) {
           </label>
         </h2>
       </div>
-      {/* <h3 className="label-wrapper">
-        <label htmlFor="new-todo-input" className="">
-          Titulo:
-        </label>
-      </h3> */}
       <div>
         <TextField
           id="outlined-required-titulo"
@@ -81,6 +77,7 @@ export default function Form(props) {
           variant="contained"
           type="success"
           onClick={handleSubmit}
+          endIcon={<AddIcon />}
         >
           Agregar
         </Button>

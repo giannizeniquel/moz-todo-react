@@ -1,11 +1,20 @@
 import React, { Fragment, useState } from "react";
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import CancelIcon from '@mui/icons-material/Cancel';
+import Stack from '@mui/material/Stack';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import UndoIcon from '@mui/icons-material/Undo';
+
 
 export default function Todo(props) {
   const [isEditing, setEditing] = useState(false);
@@ -13,45 +22,74 @@ export default function Todo(props) {
   const [newDescripcion, setNewDescripcion] = useState('');
 
   function handleChange(e) {
-    setNewTitulo(e.target.value);
+    if (e.target.id.includes("titulo")) {
+      setNewTitulo(e.target.value);
+    }else if(e.target.id.includes("descripcion")) {
+      setNewDescripcion(e.target.value);
+    }
   }
 
   function handleSubmit(e){
     e.preventDefault();
-    props.editTarea(props.id, newTitulo);
+    props.editTarea(props.id, newTitulo, newDescripcion);
     setNewTitulo("");
+    setNewDescripcion("");
     setEditing(false);
   }
 
   const editingTemplate = (
-    <form className="stack-small" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label className="todo-label" htmlFor={props.id}>
-          Nuevo nombre para: <strong>{props.titulo}</strong>
-        </label>
-        <input 
-            id={props.id} 
-            className="todo-text" 
-            type="text"
-            value={newTitulo}
-            onChange={handleChange}
-        />
-      </div>
-      <div className="btn-group">
-        <button
-          type="button"
-          className="btn todo-cancel"
-          onClick={() => setEditing(false)}
-        >
-          Cancelar
-          <span className="visually-hidden">renaming {props.titulo}</span>
-        </button>
-        <button type="submit" className="btn btn__primary todo-edit">
-          Guardar
-          <span className="visually-hidden">new name for {props.titulo}</span>
-        </button>
-      </div>
-    </form>
+    <Fragment>
+      <Box component="form"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          '& .MuiTextField-root': { m: 1, width: '35ch'},
+        }}
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <Card variant="outlined">
+          <CardContent>
+            <TextField
+              id="outlined-required-titulo"
+              label="Editar Titulo"
+              name="text-titulo"
+              autoComplete="off"
+              value={newTitulo}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              id="outlined-required-descripcion"
+              label="Editar Descripcion"
+              name="text-descripcion"
+              autoComplete="off"
+              value={newDescripcion}
+              onChange={handleChange}
+              required
+              multiline
+            />
+          </CardContent>
+          <CardActions>
+            <Stack direction="row" spacing={1}>
+              <Button 
+                onClick = {() => { setEditing(false); setNewTitulo(""); setNewDescripcion(""); }}
+                color="primary"
+                title="Cancelar"
+                variant="outlined"
+              >
+                <UndoIcon />
+              </Button>
+              <Button type="success" color="primary" title="Guardar" variant="outlined">
+                <CheckCircleIcon />
+              </Button>
+            </Stack>
+          </CardActions>
+        </Card>
+      </Box>
+      <br/>
+    </Fragment>
   );
   const viewTemplate = (
     <Fragment>
@@ -81,14 +119,14 @@ export default function Todo(props) {
         </CardContent>
 
         <CardActions>
-          <ButtonGroup>
-            <Button onClick={() => setEditing(true)} color="secondary">
-              Editar
+          <Stack direction="row" spacing={1}>
+            <Button onClick={() => setEditing(true)} color="primary" title="Editar" variant="outlined">
+              <EditNoteIcon />
             </Button>
-            <Button onClick={() => { props.deleteTarea(props.id); }} color="error">
-              Eliminar
+            <Button onClick={() => { props.deleteTarea(props.id); }} color="primary" title="Eliminar" variant="outlined">
+              <DeleteIcon />
             </Button>
-          </ButtonGroup>
+          </Stack>
         </CardActions>
       </Card>
       <br/>
