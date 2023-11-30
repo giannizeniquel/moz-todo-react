@@ -96,7 +96,7 @@ export default function Todo(props) {
       <Card variant="outlined">
         <CardContent>
           <Typography sx={{ fontSize: 14, fontStyle: "italic" }} color="text.secondary" gutterBottom>
-            {props.fechaCreacion}
+            Creada: {props.fechaCreacion}
           </Typography>
           <Typography variant="h5" component="div" id={'titulo_tarea_'+props.id}>
             {props.titulo}
