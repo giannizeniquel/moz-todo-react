@@ -44,8 +44,8 @@ function getSuspender(promise) {
 */
 export function fetchCreateTarea(newTarea) {
     //para prod
-    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea";
-    let url = "http://127.0.0.1:8000/api/tarea";
+    let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea";
+    //let url = "http://127.0.0.1:8000/api/tarea";
 
     return fetch(url, {
         method: "POST",
@@ -61,8 +61,8 @@ export function fetchCreateTarea(newTarea) {
 //envio id de la tarea y la tarea que se va a modificar por method PUT
 export function fetchUpdateTarea(id, updateTarea) {
     //para prod
-    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea/" + id;
-    let url = "http://127.0.0.1:8000/api/tarea/" + id;
+    let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea/" + id;
+    //let url = "http://127.0.0.1:8000/api/tarea/" + id;
 
     return fetch(url, {
         method: "PUT",
@@ -78,8 +78,8 @@ export function fetchUpdateTarea(id, updateTarea) {
 //envio id tarea a eliminar con method DELETE
 export function fetchDeleteTarea(id) {
     //para prod
-    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea/" + id;
-    let url = "http://127.0.0.1:8000/api/tarea/" + id;
+    let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tarea/" + id;
+    //let url = "http://127.0.0.1:8000/api/tarea/" + id;
     
     return fetch(url, {
         method: "DELETE",
@@ -105,8 +105,8 @@ export function fetchDeleteTarea(id) {
 */
 export function fetchGetTareas(id_user) {
     //para prod
-    //let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tareas/" + id_user;
-    let url = "http://127.0.0.1:8000/api/tareas/" + id_user;
+    let url = "https://todo-api-symfony-47610e1130ec.herokuapp.com/api/tareas/" + id_user;
+    //let url = "http://127.0.0.1:8000/api/tareas/" + id_user;
 
     const promise = fetch(url,{
                 method: "GET",
