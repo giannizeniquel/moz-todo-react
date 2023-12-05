@@ -19,7 +19,7 @@ root.render(
   <React.StrictMode>
     <CssBaseline enableColorScheme />
     <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
-      <Container maxWidth="sm">
+      <Container maxWidth="xl">
         <Box
           sx={{
             display: 'flex',

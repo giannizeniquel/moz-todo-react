@@ -13,9 +13,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Filter } from "@mui/icons-material";
+import ButtonAppBar from './components/NavBar';
+import Grid from '@mui/material/Grid';
 
 const getTareas = fetchGetTareas(1);//el parametro me indica el usuario TODO: pensar dinamismo cuando se tenga el login hecho
-
 
 const FILTER_MAP = {
   Todas: () => true,
@@ -90,17 +91,19 @@ function App() {
 
   //recorro matriz de tareas que fue declarada en Index.js y recibo en props como tareas, renderizo Componente Todo segun el filtro seleccionado
     const taskList = tareas.filter(FILTER_MAP[filter]).map((tarea) => (
-      <Todo
-        id={tarea.id}
-        titulo={tarea.titulo}
-        descripcion={tarea.descripcion}
-        terminada={tarea.terminada}
-        fechaCreacion={tarea.fechaCreacion}
-        key={tarea.id}
-        toggleTaskCompleted={toggleTaskCompleted}
-        deleteTarea={deleteTarea}
-        editTarea={editTarea}
-      />
+      <Grid item xs={12} sm={8} md={6} lg={4} xl={4} key={tarea.id+"_grid"}>
+        <Todo
+          id={tarea.id}
+          titulo={tarea.titulo}
+          descripcion={tarea.descripcion}
+          terminada={tarea.terminada}
+          fechaCreacion={tarea.fechaCreacion}
+          key={tarea.id}
+          toggleTaskCompleted={toggleTaskCompleted}
+          deleteTarea={deleteTarea}
+          editTarea={editTarea}
+        />
+      </Grid>
     ));               
 
   const filterList = FILTER_NAMES.map((titulo) => {
@@ -124,7 +127,8 @@ function App() {
 
   return (
     <Fragment>
-      <h1>Administrar Tareas</h1>
+      <ButtonAppBar />
+      <h1>Tablero de : 'usuario'</h1>
       <Form addTarea={addTarea} />
       <Box
         sx={{
@@ -149,9 +153,16 @@ function App() {
       <h2 id="list-heading">{headingText}</h2>
       <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
           {/* muestro constante que contiene mi mapeo con mis tareas */}       
-          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid justifyContent={{xs: 'center', sm: 'center', md: 'center', lg: 'left', xl: 'left'}}
+            container
+            direction="row"
+            alignItems="center"
+            spacing={4}
+          >
             {taskList}
-          </List>
+          </Grid>
+        </Box>
       </Suspense>
     </Fragment>
   );

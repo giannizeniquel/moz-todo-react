@@ -14,6 +14,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Stack from '@mui/material/Stack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UndoIcon from '@mui/icons-material/Undo';
+import Grid from '@mui/material/Grid';
 
 
 export default function Todo(props) {
@@ -41,7 +42,7 @@ export default function Todo(props) {
     <Fragment>
       <Box component="form"
         sx={{
-          display: 'flex',
+          display: 'inline-block',
           flexDirection: 'column',
           alignItems: 'center',
           '& .MuiTextField-root': { m: 1, width: '35ch'},
@@ -49,7 +50,7 @@ export default function Todo(props) {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ minWidth: 360, bgcolor:'#f5f5f5' }}>
           <CardContent>
             <TextField
               id="outlined-required-titulo"
@@ -88,23 +89,22 @@ export default function Todo(props) {
           </CardActions>
         </Card>
       </Box>
-      <br/>
     </Fragment>
   );
   const viewTemplate = (
     <Fragment>
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{ minWidth: 380, minHeight: 280}} >
         <CardContent>
           <Typography sx={{ fontSize: 14, fontStyle: "italic" }} color="text.secondary" gutterBottom>
             Creada: {props.fechaCreacion}
           </Typography>
-          <Typography variant="h5" component="div" id={'titulo_tarea_'+props.id}>
+          <Typography variant="h5" component="div" id={'titulo_tarea_'+props.id} sx={{maxInlineSize: 400}}>
             {props.titulo}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            
+            Prioridad
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{minHeight: 90}}>
             {props.descripcion}
           </Typography>
           <br />
@@ -118,7 +118,7 @@ export default function Todo(props) {
           completado
         </CardContent>
 
-        <CardActions>
+        <CardActions sx={{marginBottom: 0}}>
           <Stack direction="row" spacing={1}>
             <Button onClick={() => setEditing(true)} color="primary" title="Editar" variant="outlined">
               <EditNoteIcon />
@@ -129,7 +129,6 @@ export default function Todo(props) {
           </Stack>
         </CardActions>
       </Card>
-      <br/>
     </Fragment>
   );
   return <Fragment>{isEditing ? editingTemplate : viewTemplate}</Fragment>;
