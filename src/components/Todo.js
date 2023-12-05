@@ -50,7 +50,7 @@ export default function Todo(props) {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Card variant="outlined" sx={{ minWidth: 360, bgcolor:'#f5f5f5' }}>
+        <Card variant="outlined" sx={{ minWidth: 360, boxShadow:'2px 2px 2px 1px rgba(0, 0, 0, 0.1)' }}>
           <CardContent>
             <TextField
               id="outlined-required-titulo"
@@ -93,7 +93,7 @@ export default function Todo(props) {
   );
   const viewTemplate = (
     <Fragment>
-      <Card variant="outlined" sx={{ minWidth: 380, minHeight: 280}} >
+      <Card variant="outlined" sx={{ minWidth: 380, minHeight: 280, boxShadow:'2px 2px 2px 1px rgba(0, 0, 0, 0.1)'}} >
         <CardContent>
           <Typography sx={{ fontSize: 14, fontStyle: "italic" }} color="text.secondary" gutterBottom>
             Creada: {props.fechaCreacion}

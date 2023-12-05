@@ -25,6 +25,8 @@ root.render(
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            marginTop: '80px',
+            marginBottom: '100px',
             '& > *': {
               m: 1,
             },
