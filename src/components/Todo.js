@@ -93,7 +93,14 @@ export default function Todo(props) {
   );
   const viewTemplate = (
     <Fragment>
-      <Card variant="outlined" sx={{ minWidth: 380, minHeight: 280, boxShadow:'2px 2px 2px 1px rgba(0, 0, 0, 0.1)'}} >
+      <Card 
+        variant="outlined" 
+        sx={{ 
+            minWidth: 240, 
+            minHeight: 180, 
+            boxShadow:'2px 2px 2px 1px rgba(0, 0, 0, 0.1)'
+          }} 
+      >
         <CardContent>
           <Typography sx={{ fontSize: 14, fontStyle: "italic" }} color="text.secondary" gutterBottom>
             Creada: {props.fechaCreacion}
