@@ -19,21 +19,18 @@ root.render(
   <React.StrictMode>
     <CssBaseline enableColorScheme />
     <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
-      <Container maxWidth="xl">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '80px',
-            marginBottom: '100px',
-            '& > *': {
-              m: 1,
-            },
-          }}
-        >
-          <App />
-        </Box>
+      <Container 
+        maxWidth="xl"
+        sx={{
+          display: 'block',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: '80px',
+          marginBottom: '100px'
+        }}
+      >
+        <App />
       </Container>
     </Suspense>
   </React.StrictMode>

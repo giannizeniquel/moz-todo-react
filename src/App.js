@@ -128,16 +128,22 @@ function App() {
   return (
     <Fragment>
       <ButtonAppBar />
-      <h1>Tablero de : 'usuario'</h1>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <h1>Tablero de : 'usuario'</h1>
+      </Box>
+      
       <Form addTarea={addTarea} />
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          '& > *': {
-            m: 1,
-          },
         }}
       >
         <ToggleButtonGroup 
@@ -149,16 +155,17 @@ function App() {
         >
           {filterList}
         </ToggleButtonGroup>
+        <h2 id="list-heading">{headingText}</h2>
       </Box>
-      <h2 id="list-heading">{headingText}</h2>
       <Suspense fallback={<div className="container-loading"><Hypnosis width="50px" height="50px" duration="3s" /></div>}>
           {/* muestro constante que contiene mi mapeo con mis tareas */}       
         <Box sx={{ flexGrow: 1 }}>
-          <Grid justifyContent={{xs: 'center', sm: 'center', md: 'center', lg: 'left', xl: 'left'}}
+          <Grid
             container
             direction="row"
             alignItems="center"
             spacing={4}
+            justifyContent="center"
           >
             {taskList}
           </Grid>
